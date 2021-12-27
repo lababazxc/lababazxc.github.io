@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>全链路压测的一点认知 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言上周周末参加了两场测试沙龙，收获良多。就其中大家目前关注度比较多的话题进行一个总结和学习。其中一个是全链路压测，另一个是流量回放。这里主要总结全链路压测的内容。本文总体为概述型，若有实际操作的需求，可以参考文末链接。  什么是全链路压测一般性能测试针对于单个系统&#x2F;服务&#x2F;组件&#x2F;接口，它们都有一些共通的特点：用户热点业务场景，或者关键的业务场景。例如淘宝首页、下订单。那么我们通常对这些关键场景进行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="全链路压测的一点认知">
+<meta property="og:url" content="http://example.com/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言上周周末参加了两场测试沙龙，收获良多。就其中大家目前关注度比较多的话题进行一个总结和学习。其中一个是全链路压测，另一个是流量回放。这里主要总结全链路压测的内容。本文总体为概述型，若有实际操作的需求，可以参考文末链接。  什么是全链路压测一般性能测试针对于单个系统&#x2F;服务&#x2F;组件&#x2F;接口，它们都有一些共通的特点：用户热点业务场景，或者关键的业务场景。例如淘宝首页、下订单。那么我们通常对这些关键场景进行">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-11-01T12:06:43.000Z">
+<meta property="article:modified_time" content="2021-11-01T12:09:38.553Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-全链路压测的一点认知" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/" class="article-date">
+  <time datetime="2021-11-01T12:06:43.000Z" itemprop="datePublished">2021-11-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      全链路压测的一点认知
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>上周周末参加了两场测试沙龙，收获良多。就其中大家目前关注度比较多的话题进行一个总结和学习。其中一个是全链路压测，另一个是流量回放。这里主要总结全链路压测的内容。本文总体为概述型，若有实际操作的需求，可以参考文末链接。</p>
+<hr>
+<h4 id="什么是全链路压测"><a href="#什么是全链路压测" class="headerlink" title="什么是全链路压测"></a>什么是全链路压测</h4><p>一般性能测试针对于单个系统/服务/组件/接口，它们都有一些共通的特点：用户热点业务场景，或者关键的业务场景。例如淘宝首页、下订单。那么我们通常对这些关键场景进行设计，只要能够通过压力测试，那就认为整个系统能够支撑业务的需要。</p>
+<p>全链路压测的出现打破了这个思维。全链路压测，顾名思义，即对整个业务链路进行压测。相较于传统性能测试，全链路压测关注度更广，着眼于整个业务域，而非仅仅某一个场景。</p>
+<p>那么为什么单系统压测的结果不准确呢？在活动开始的那一刻，流量就会瞬间达到峰值，各个服务都会面临巨大的压力。此时若链路中的某一个环节出现了故障，由于系统之间的依赖关系，故障可能沿着业务链路传递下去，使造成的影响无法评估。而单机压测则未考虑到此种情况。且全链路压测出来的情况更贴近真实生产情况，提前暴露生产风险。</p>
+<p>是一个针对业务张静越发复杂化，海量数据冲击，发现并解决整个业务系统的可用性、扩展性以及容错性的过程。</p>
+<hr>
+<h4 id="传统压测vs全链路压测"><a href="#传统压测vs全链路压测" class="headerlink" title="传统压测vs全链路压测"></a>传统压测vs全链路压测</h4><table>
+<thead>
+<tr>
+<th align="center">压测类型</th>
+<th align="center">传统压测</th>
+<th align="center">全链路压测</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">压测方式</td>
+<td align="center">Jmeter、Locust、Loadrunner</td>
+<td align="center">流量回放、压测集群</td>
+</tr>
+<tr>
+<td align="center">压测环境</td>
+<td align="center">测试环境、性能环境</td>
+<td align="center">生产环境</td>
+</tr>
+<tr>
+<td align="center">环境特点</td>
+<td align="center">配置低/不稳定</td>
+<td align="center">环境稳定/真实线上</td>
+</tr>
+<tr>
+<td align="center">压测场景</td>
+<td align="center">单机/单链路</td>
+<td align="center">核心链路及其场景</td>
+</tr>
+<tr>
+<td align="center">成本</td>
+<td align="center">需要投入人力新建、维护压测环境</td>
+<td align="center">线上生产环境，成本接近于0</td>
+</tr>
+</tbody></table>
+<p>一般的压测流程为：压测需求的提出 –&gt; 评估技术方案 –&gt; 搭建压测环境/压测数据准备 –&gt; 执行测试 –&gt; 生成报告。</p>
+<p>压测的需求可以来源于：</p>
+<ul>
+<li>新功能的交付。此时对功能的上限无明确的认知，需要压测提供标准；</li>
+<li>测试已有功能是否达标。</li>
+<li>日常性压测，为将来的工作提供参考依据。</li>
+</ul>
+<p>技术方案中需要根据压测的目标，给出机器数量、部署架构、执行流程、考核指标。</p>
+<p>评估过后根据技术方案搭建环境、准备数据。传统的数据构造，一般由测试人员自己维护一批压测数据。但这种方式存在很大的弊端，一方面维护成本相对较高，另一方面，其构造出的数据多样性也不足够。或通过数据工厂来构造千万、亿级数据。而全链路压测通常会dump线上数据作为压测流量，同时针对整个压测范围，依赖接口可以做人工标注。哪些需要Mock，哪些不需要Mock，如此压测特有的链路信息能够得到持续的维护。</p>
+<hr>
+<h4 id="全链路压测需要注意的点"><a href="#全链路压测需要注意的点" class="headerlink" title="全链路压测需要注意的点"></a>全链路压测需要注意的点</h4><p>首先，也是最重要的一点就是压测隔离。利用线上场景进行压测，不能污染线上真实用户的信息。这需要线上的集群能识别出压测的流量，只要能识别出压测请求的流量，那么流量触发的读写操作就很好统一去做隔离了。通常的解决方案为采用影子库的手段。影子表为和线上结构一致，但是处于隔离位置的可写压测数据表。同时为了区分压测流量与实际流量，一般会在Http header中添加特殊标识符加以分别（这里需要注意压测标识需要在全链路中透传，涉及到跨线程、服务传参的问题）。</p>
+<p>其次，线上压测又可能会影响到真实用户的体验，所以要选择业务流量小的时段进行（通常在夜间执行）。同时线上压测有可能触发流量降级策略、异常流量攻击识别策略等问题。这需要在进行压测开始前，有针对性的放松安全策略，或根据特殊标记识别。</p>
+<hr>
+<h4 id="压测结束后的工作"><a href="#压测结束后的工作" class="headerlink" title="压测结束后的工作"></a>压测结束后的工作</h4><p>压测结束后，需要将压测数据、监控数据进行整理复盘。分析当前系统存在的瓶颈、优化计划以及下一次压测计划。同时还要处理影子表的数据，为下一次压测做准备。</p>
+<p>参考文献：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://tech.meituan.com/2018/09/27/quake-introduction.html">全链路压测平台（Quake）在美团中的实践</a></li>
+<li><a target="_blank" rel="noopener" href="https://tech.meituan.com/2019/02/14/full-link-pressure-test-automation.html">全链路压测自动化实践</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/ByteDanceTech/article/details/109040406">字节跳动全链路压测(Rhino)的实践</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1404093">有赞全链路压测实战</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/" data-id="ckvgmi8h40003fw0f3oe5a8ls" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2021/10/23/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">接口自动化</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" rel="tag">自动化</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" style="font-size: 10px;">自动化</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/">全链路压测的一点认知</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/23/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/">接口自动化</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/23/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
