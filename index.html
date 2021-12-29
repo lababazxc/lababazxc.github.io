@@ -120,7 +120,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/12/27/Serivce-Mesh%E7%9A%84%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3/" data-id="ckxr61v6x0001hm0f6jdn35n6" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/12/27/Serivce-Mesh%E7%9A%84%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3/" data-id="ckxr7p3hd0003kf0f8ifr9dap" class="article-share-link">Share</a>
       
       
     </footer>
@@ -218,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/" data-id="ckxr61v710003hm0fhpw3dpen" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/" data-id="ckxr7p3he0004kf0f45s4722v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -242,7 +242,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/10/23/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/">接口自动化</a>
+      <a class="article-title" href="/2021/10/23/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/">浅谈pytest+HttpRunner如何展开接口测试</a>
     </h1>
   
 
@@ -250,12 +250,38 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>待填坑</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>软件测试有多种多样的方法和技术，可以从不同角度对它们进行分类。其中，根据软件生命周期，针对不同的测试对象与目标，可将测试过程分为4个阶段：单元测试、集成测试、系统测试和验收测试。本文着重介绍了如何借用pytest与httprunner进行接口自动化测试。</p>
+<h2 id="什么是接口测试"><a href="#什么是接口测试" class="headerlink" title="什么是接口测试"></a>什么是接口测试</h2><blockquote>
+<p>In computing, an interface is a shared boundary across which two or more separate components of a computer system exchange information. The exchange can be between software, computer hardware, peripheral devices, humans, and combinations of these.</p>
+</blockquote>
+<p>根据wiki中的定义，接口是一个共享的边界，计算机系统的多个独立组件通过它交换信息。这些信息的交换可以基于软件、硬件、外部设备、人和它们之间的组合。根据上述定义，可以面向软件、硬件、交互设备等展开接口测试。软件的接口测试是面向独立组件之间接口的一种测试，主要用于检测内外部系统及内部各子系统之间的交互点。测试的重点在于检查逻辑正确性、交互依赖性、数据正确性.</p>
+<h2 id="引入自动化背景"><a href="#引入自动化背景" class="headerlink" title="引入自动化背景"></a>引入自动化背景</h2><p>基于以下几个情况，数栈引入自动化测试，以期提高测试效率，保障交付产品质量。</p>
+<ol>
+<li>产品迭代迅速<br>目前数栈产品已经迭代至Release4.3版本。每过几个月进行一次产品release更新让回归测试的工作量持续上升。接口自动化测试可以很好的减少回归工作量。</li>
+<li>应用系统日趋复杂<br>数栈目前自研8款产品和多个插件，产品之间的交互与产品-插件之间的交互日趋复杂。客观现实带来了更大的测试风险，测试消耗成本越来越高，花费的时间也越来越长。接口自动化测试可以提高测试效率。</li>
+<li>部署环境多样<br>作为一款面向大数据的产品，除了开源的Hadoop，还需要适配TDH、CDH、HDP等其他引擎。同时，各种客户的POC环境也需要大量人力支持。</li>
+</ol>
+<h2 id="三、自动化技术选型"><a href="#三、自动化技术选型" class="headerlink" title="三、自动化技术选型"></a>三、自动化技术选型</h2><p>接口测试可以使用的工具有很多，Postman、Jmeter、REST-Assured、SoapUI、httpclient等等。数栈产品使用的是HttpRunner这个框架。相比较于前几类工具，它具有以下特点：</p>
+<ol>
+<li>简单易用。<br>虽然前几款工具中有图形化界面可以让人直观的进行操作，但HttpRunner以“关键字”的优势可以让QA快速的上手框架，对代码能力要求低。根据对应的关键字填入相应的值，即可生成一条测试用例。</li>
+<li>可扩展性强<br>HttpRunner的V3版本支持了pytest，可以方便的借助pytest插件解决接口测试中遇到的问题，如数据驱动、参数化等。jUnit虽然也具有扩展性强的特点，但是Java语言对于QA来说太重，且学习成本比HttpRunner更高。</li>
+<li>易于集成CI<br>HttpRunner支持CLI命令，可以方便的接入Jenkins、Gitlab CI等工具。</li>
+<li>录制回放<br>通过Charles、Fiddler等工具将请求到处为.har文件，然后通过HttpRunner提供的命令，就可以将.har文件转换成json/yaml文件。</li>
+</ol>
+<p>数栈产品曾使用过Jmeter作为接口自动化工具。Jmeter拥有可视化图形界面，通过拖动组件信息就可完成用例编排，方便QA使用。但是Jmeter的内置函数不能满足于复杂的数栈产品，虽然可以选择beanshell来写工具脚本，但其难以调试，第三方包管理困难等问题使编写效率低下。同时Jmeter容易出现编码混乱、日志不易于查看等问题。<br>HttpRunner作为一款优秀的开源框架，在GitHub上拥有2.6k star，集简单易用、扩展性强、易于集成、录制回放等特性于一体，相比较于Jmeter更适用于数栈自动化实践。</p>
+<h2 id="自动化测试用例"><a href="#自动化测试用例" class="headerlink" title="自动化测试用例"></a>自动化测试用例</h2><p>数栈整体自动化测试架构如下图所示。从上到下可分为用户层、配置层、用例层、数据源。用户可以通过Docker镜像、Pipeline、定时任务来触发自动化任务。运行的结果记录到禅道，然后通过接入自研的EasyV进行展示。配置文件分为两类：一类是应用系统信息，如业务数据库信息、域名、账号密码等；另一类是数据源信息，用于用例的执行，现在支持的数据源有MySQL、Oracle、Kafka、HBase等等。从业务层面分，可以分为8个产品，每个产品编写各自的用例；从执行层面分，可分为接口测试和场景测试。若选择接口测试，则会运行所有产品的接口测试用例。下面拿接口测试用例进行举例说明。<br><img src="https://s2.loli.net/2021/12/29/KnYaxfbNwST4QM7.png" ><br>一条接口测试用例可分为两部分：配置和测试步骤。先来看配置</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">config = (</span><br><span class="line">        Config(<span class="string">&quot;测试创建项目接口&quot;</span>)</span><br><span class="line">            .variables(</span><br><span class="line">            **&#123;</span><br><span class="line">                <span class="string">&quot;cookie&quot;</span>: Cookie().get_cookie(),</span><br><span class="line">                <span class="string">&quot;url&quot;</span>: api.aiworks.aiworks_api.AiworksApi.create_project.value,</span><br><span class="line">                <span class="string">&quot;tenant_name&quot;</span>: ENV_CONF.uic.tenant_name,</span><br><span class="line">                <span class="string">&quot;project_name&quot;</span>: project_name</span><br><span class="line">            &#125;</span><br><span class="line">        )</span><br><span class="line">            .base_url(ENV_CONF.base_url.rdos)</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+<p>首先第一个遇到的问题就是获取cookie。基本上接口都需要cookie或者token校验才能调用，因此将获取cookie的方法抽象提取成一个get_cookie()，避免了每个用例写一遍登陆。这个方法就属于架构图中预置函数的模块。url、tenant_name、project_name三个变量是后续测试步骤中所需要用到的变量值，这些都预先在variables中定义好。其中还可以看到有AiworksApi、ENV_CONF这几个文件。AiworksApi是所有Aiwork产品的接口枚举类，对接口内容进行管理；ENV_CONF包含了整个自动化项目的配置信息，是一个配置文件，属于配置层。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">teststeps = [</span><br><span class="line">        Step(</span><br><span class="line">          RunRequest(<span class="string">&quot;开始请求创建项目接口&quot;</span>)</span><br><span class="line">            .post(<span class="string">&quot;$url&quot;</span>)</span><br><span class="line">            .with_headers(**&#123;<span class="string">&quot;cookie&quot;</span>: <span class="string">&quot;$cookie&quot;</span>&#125;)</span><br><span class="line">        	.with_json(</span><br><span class="line">            	&#123;</span><br><span class="line">                    <span class="string">&quot;enableCycleSchedule&quot;</span>: <span class="string">&quot;$enableCycleSchedule&quot;</span>,</span><br><span class="line">                     <span class="string">&quot;isSwitchJupyter&quot;</span>: <span class="string">&quot;$isSwitchJupyter&quot;</span>,</span><br><span class="line">                     <span class="string">&quot;projectAlias&quot;</span>: <span class="string">&quot;$projectAlias&quot;</span>,</span><br><span class="line">                     <span class="string">&quot;projectDesc&quot;</span>: <span class="string">&quot;$projectDesc&quot;</span>,</span><br><span class="line">                     <span class="string">&quot;projectEngineList&quot;</span>: <span class="string">&quot;$projectEngineList&quot;</span>,</span><br><span class="line">                     <span class="string">&quot;projectName&quot;</span>: <span class="string">&quot;$projectName&quot;</span>,</span><br><span class="line">                     <span class="string">&quot;switchGpu&quot;</span>: <span class="string">&quot;$switchGpu&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">        	)</span><br><span class="line">            .validate()</span><br><span class="line">            .assert_equal(<span class="string">&quot;status_code&quot;</span>, <span class="number">200</span>)</span><br><span class="line">            .assert_equal(<span class="string">&quot;body.code&quot;</span>, <span class="string">&quot;$code&quot;</span>)</span><br><span class="line">            .assert_contains(<span class="string">&quot;body.message&quot;</span>, <span class="string">&quot;$message&quot;</span>)</span><br><span class="line">            .teardown_hook(<span class="string">&quot;$&#123;delete_project()&#125;&quot;</span>)</span><br><span class="line">        )</span><br><span class="line">    ]</span><br></pre></td></tr></table></figure>
+<p>然后在测试步骤部分，整个teststeps由Step数组构成。可以看到创建项目这个接口只有一个Step，整个Step分为post、with_headers、with_json、validate、teardown_hooke5个部分组成。其中，with_json中key-value键值对的值全都是引用的方式来取得，而不是写死的固定值。这样就可以将用例与数据区分开来。而具体的值则通过@pytest.mark.parameterize这个装饰器传入，params里定义了这个用例所需的所有字段值。整体用例编写思路为“用例与数据分离”，避免修改测试用例需要改动大量的代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@pytest.mark.parametrize(<span class="params"><span class="string">&quot;params&quot;</span>, params</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_start</span>(<span class="params">self, params</span>):</span></span><br><span class="line">    <span class="built_in">super</span>().test_start(params)</span><br></pre></td></tr></table></figure>
+<p>所以整体来看，HttpRunner框架提供了一个用例模版–由多个关键字组成，使用者只需要将模版中的内容填充完整，就可以完成一条用例的编写。</p>
+<h2 id="自动化成果"><a href="#自动化成果" class="headerlink" title="自动化成果"></a>自动化成果</h2><p>自2021年4月自动化立项以来，已编写超过900条用例，8个子产品接口覆盖率平均达到60%以上。每日通过Jenkins构建定时任务，在持续集成环境对最新的代码进行自动化测试。同时，自动化测试接入了测试环境、客户环境中使用。在提供环境信息完备的情况下，可以随时接入自动化，并运行得出报告给到QA，大大减少了回归工作量，从原先3-4周的时间缩短到1-2周完成。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/10/23/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/" data-id="ckxr61v6o0000hm0ffr8lboa5" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/10/23/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/" data-id="ckxr7p3gz0000kf0f62gfcr1g" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" rel="tag">自动化</a></li></ul>
@@ -320,7 +346,7 @@
           </li>
         
           <li>
-            <a href="/2021/10/23/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/">接口自动化</a>
+            <a href="/2021/10/23/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/">浅谈pytest+HttpRunner如何展开接口测试</a>
           </li>
         
       </ul>
