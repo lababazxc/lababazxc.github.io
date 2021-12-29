@@ -80,7 +80,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/27/Serivce-Mesh%E7%9A%84%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3/">Serivce Mesh的简单了解</a>
+      <a class="article-title" href="/2021/12/27/Serivce-Mesh%E7%9A%84%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3/">Serivce Mesh简读</a>
     </h1>
   
 
@@ -88,9 +88,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>分布式系统简单易用，但是也导致了很多问题。例如组织散乱、重复的逻辑和数据传输</p>
-<p>图一，最简单的服务通信。忽略了一些细节<br><img src="https://s2.loli.net/2021/12/29/CfLiRvrQb5kw16a.png" width="50%" height="50%"><br>图二，加入了网络堆栈。为了建立连接，需要在同一网路中发现彼此、处理多个同时连接、允许机器在非直连的情况下通信、跨网络路由数据包，加密流量。<br>同时为了保证A、B服务能够处理交互的数据流，需要加入flow control（流量控制）和business logic。（图三）在这个流量控制模型中，服务需要自己处理业务逻辑、数据包逻辑。<br>随着技术的发展，产生了很多标准如TCP/IP协议，使得数据包逻辑可以从代码逻辑中</p>
-<p>分布式计算的8个谬误：</p>
+        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>在MTSC2021上，字节分享了关于广告系统的质量保障实践。其中提到的byte mesh是借鉴了Service Mesh的思想。因此对原文做一个简读。</p>
+<h4 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h4><p>文章主要阐述的核心问题在于：分布式系统简单易用，但是也导致了很多问题。例如组织散乱、逻辑重复和数据传输。然后通过服务间通信的发展历程来说明每一次迭代的优缺点，最终引出Service Mesh是如何解决相关问题的。本文也通过此方法进行回顾。<br><strong>网络发展初期</strong></p>
+<hr>
+<p>计算机发展初期，几台计算机间的通信拓扑如下图<br><img src="https://s2.loli.net/2021/12/29/CfLiRvrQb5kw16a.png" width="50%" height="50%"><br>如果往图中加入网络通信模块，就是最简单的、完整的服务通信图。<br><img src="https://s2.loli.net/2021/12/29/bpFUgh6KMEN29wj.png" width="50%" height="50%"><br>当计算机发展到19世纪50年代，为了保障连接稳定性，需要解决在同一网路中发现彼此、处理多个同时连接、允许机器在非直连的情况下通信、跨网络路由数据包，加密流量等问题。同时为了保证A、B服务能够处理交互的数据流，需要加入flow control（流量控制）和business logic（业务逻辑）。在这个流量控制模型中（如下图），服务需要自己处理业务逻辑、数据包逻辑。<br><img src="https://s2.loli.net/2021/12/29/XMmlVeZ2hoL5pAg.png" width="50%" height="50%"><br>随着技术的发展，产生了很多标准如TCP/IP协议，使得数据包逻辑可以从代码逻辑中解耦出来，让网络协议本身来解决流量拥塞问题。下图这个模型被广泛的使用在各个场景中。<br><img src="https://s2.loli.net/2021/12/29/iADS31JN7WKcxps.png" width="50%" height="50%"></p>
+<h2 id="微服务初见"><a href="#微服务初见" class="headerlink" title="微服务初见"></a><strong>微服务初见</strong></h2><p>随着时间的发展，网络系统也发展出诸如细粒度的分布式代理、面向对象的SOA架构。分布式架构带来极致的收益的同时，也带来了一些问题<br>Peter Deutsch提出了分布式计算的8个谬误：</p>
 <ol>
 <li>网络可靠</li>
 <li>零延迟</li>
@@ -101,7 +103,7 @@
 <li>传输成本为零</li>
 <li>网络是同质的</li>
 </ol>
-<p>既然存在这些谬误，意味着仍需工程师来解决问题。</p>
+<p>既然存在这些误解，意味着仍需工程师来解决这方面的问题。</p>
 <p>那么在更复杂的微服务当中也需要处理问题：</p>
 <ol>
 <li>快速的配置计算资源</li>
@@ -112,12 +114,13 @@
 <li>认证/授权</li>
 <li>标准化RPC是</li>
 </ol>
-<p>TCP/IP协议经过多年的发展仍是强大的网络通信协议栈，为解决上述问题引入了更复杂的架构/需求，仍需工程师来满足。例如：service discovery，circuit breakersers e r</p>
+<p>TCP/IP协议经过多年的发展仍是强大的网络通信协议栈，为解决上述问题引入了更复杂的架构/需求，仍需工程师来满足。例如：例如：service discovery，circuit breaker等</p>
+<p>待续..</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/12/27/Serivce-Mesh%E7%9A%84%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3/" data-id="ckxqw623000008p0f1k1677m6" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/12/27/Serivce-Mesh%E7%9A%84%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3/" data-id="ckxr61v6x0001hm0f6jdn35n6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -215,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/" data-id="ckxqw623600018p0ffgx896g6" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/" data-id="ckxr61v710003hm0fhpw3dpen" class="article-share-link">Share</a>
       
       
     </footer>
@@ -252,7 +255,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/10/23/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/" data-id="ckxqw623800028p0fdyn1dq6l" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/10/23/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/" data-id="ckxr61v6o0000hm0ffr8lboa5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/" rel="tag">自动化</a></li></ul>
@@ -309,7 +312,7 @@
       <ul>
         
           <li>
-            <a href="/2021/12/27/Serivce-Mesh%E7%9A%84%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3/">Serivce Mesh的简单了解</a>
+            <a href="/2021/12/27/Serivce-Mesh%E7%9A%84%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3/">Serivce Mesh简读</a>
           </li>
         
           <li>
