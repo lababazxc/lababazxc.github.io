@@ -17,20 +17,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>全链路压测的一点认知 | Hexo</title>
-  <meta name="description" content="前言上周周末参加了两场测试沙龙，收获良多。就其中大家目前关注度比较多的话题进行一个总结和学习。其中一个是全链路压测，另一个是流量回放。这里主要总结全链路压测的内容。本文总体为概述型，若有实际操作的需求，可以参考文末链接。  什么是全链路压测一般性能测试针对于单个系统&#x2F;服务&#x2F;组件&#x2F;接口，它们都有一些共通的特点：用户热点业务场景，或者关键的业务场景。例如淘宝首页、下订单。那么我们通常对这些关键场景进行">
+  <title>测试、测试开发与质量保障 | Hexo</title>
+  <meta name="description" content="摘要最近在阅读《Google软件测试之道》这本书。书的前三章详细介绍了软件开发工程师、测试开发工程师和测试工程师。阅读后想要结合我们实际工作情况谈谈我的理解。文章会先介绍Google中的研发流程，测试和测试开发的工作内容。然后根据实际工作中的各种情况，聊一聊测试和测试开发在研发中的角色定位。  PartI Google研发在理想情况中，测试与开发的工作是同时进行的。甚至开发人员在便在代码时就会思考">
 <meta property="og:type" content="article">
-<meta property="og:title" content="全链路压测的一点认知">
-<meta property="og:url" content="http://example.com/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/index.html">
+<meta property="og:title" content="测试、测试开发与质量保障">
+<meta property="og:url" content="http://example.com/2022/01/24/%E6%B5%8B%E8%AF%95%E3%80%81%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E4%B8%8E%E8%B4%A8%E9%87%8F%E4%BF%9D%E9%9A%9C/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="前言上周周末参加了两场测试沙龙，收获良多。就其中大家目前关注度比较多的话题进行一个总结和学习。其中一个是全链路压测，另一个是流量回放。这里主要总结全链路压测的内容。本文总体为概述型，若有实际操作的需求，可以参考文末链接。  什么是全链路压测一般性能测试针对于单个系统&#x2F;服务&#x2F;组件&#x2F;接口，它们都有一些共通的特点：用户热点业务场景，或者关键的业务场景。例如淘宝首页、下订单。那么我们通常对这些关键场景进行">
+<meta property="og:description" content="摘要最近在阅读《Google软件测试之道》这本书。书的前三章详细介绍了软件开发工程师、测试开发工程师和测试工程师。阅读后想要结合我们实际工作情况谈谈我的理解。文章会先介绍Google中的研发流程，测试和测试开发的工作内容。然后根据实际工作中的各种情况，聊一聊测试和测试开发在研发中的角色定位。  PartI Google研发在理想情况中，测试与开发的工作是同时进行的。甚至开发人员在便在代码时就会思考">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-11-01T12:06:43.000Z">
-<meta property="article:modified_time" content="2021-11-01T12:09:38.553Z">
+<meta property="article:published_time" content="2022-01-24T11:55:13.000Z">
+<meta property="article:modified_time" content="2022-01-24T12:09:00.362Z">
 <meta property="article:author" content="石潇">
+<meta property="article:tag" content="Google软件测试之道">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://example.com/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/index.html">
+  <link rel="canonical" href="http://example.com/2022/01/24/%E6%B5%8B%E8%AF%95%E3%80%81%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E4%B8%8E%E8%B4%A8%E9%87%8F%E4%BF%9D%E9%9A%9C/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -301,14 +302,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-全链路压测的一点认知" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-测试、测试开发与质量保障" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      全链路压测的一点认知
+      测试、测试开发与质量保障
     </h1>
   
 
@@ -316,12 +317,17 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/" class="article-date">
-	  <time datetime="2021-11-01T12:06:43.000Z" itemprop="datePublished">2021-11-01</time>
+	<a href="/2022/01/24/%E6%B5%8B%E8%AF%95%E3%80%81%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E4%B8%8E%E8%B4%A8%E9%87%8F%E4%BF%9D%E9%9A%9C/" class="article-date">
+	  <time datetime="2022-01-24T11:55:13.000Z" itemprop="datePublished">2022-01-24</time>
 	</a>
 </span>
         
         
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Google%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E4%B9%8B%E9%81%93/" rel="tag">Google软件测试之道</a>
+  </span>
+
 
         
 	<span class="article-read hidden-xs">
@@ -332,74 +338,53 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/#comments" class="article-comment-link">Comments</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/01/24/%E6%B5%8B%E8%AF%95%E3%80%81%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E4%B8%8E%E8%B4%A8%E9%87%8F%E4%BF%9D%E9%9A%9C/#comments" class="article-comment-link">Comments</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>上周周末参加了两场测试沙龙，收获良多。就其中大家目前关注度比较多的话题进行一个总结和学习。其中一个是全链路压测，另一个是流量回放。这里主要总结全链路压测的内容。本文总体为概述型，若有实际操作的需求，可以参考文末链接。</p>
+        <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>最近在阅读《Google软件测试之道》这本书。书的前三章详细介绍了软件开发工程师、测试开发工程师和测试工程师。阅读后想要结合我们实际工作情况谈谈我的理解。文章会先介绍Google中的研发流程，测试和测试开发的工作内容。然后根据实际工作中的各种情况，聊一聊测试和测试开发在研发中的角色定位。</p>
 <hr>
-<h4 id="什么是全链路压测"><a href="#什么是全链路压测" class="headerlink" title="什么是全链路压测"></a>什么是全链路压测</h4><p>一般性能测试针对于单个系统/服务/组件/接口，它们都有一些共通的特点：用户热点业务场景，或者关键的业务场景。例如淘宝首页、下订单。那么我们通常对这些关键场景进行设计，只要能够通过压力测试，那就认为整个系统能够支撑业务的需要。</p>
-<p>全链路压测的出现打破了这个思维。全链路压测，顾名思义，即对整个业务链路进行压测。相较于传统性能测试，全链路压测关注度更广，着眼于整个业务域，而非仅仅某一个场景。</p>
-<p>那么为什么单系统压测的结果不准确呢？在活动开始的那一刻，流量就会瞬间达到峰值，各个服务都会面临巨大的压力。此时若链路中的某一个环节出现了故障，由于系统之间的依赖关系，故障可能沿着业务链路传递下去，使造成的影响无法评估。而单机压测则未考虑到此种情况。且全链路压测出来的情况更贴近真实生产情况，提前暴露生产风险。</p>
-<p>是一个针对业务张静越发复杂化，海量数据冲击，发现并解决整个业务系统的可用性、扩展性以及容错性的过程。</p>
-<hr>
-<h4 id="传统压测vs全链路压测"><a href="#传统压测vs全链路压测" class="headerlink" title="传统压测vs全链路压测"></a>传统压测vs全链路压测</h4><table>
-<thead>
-<tr>
-<th align="center">压测类型</th>
-<th align="center">传统压测</th>
-<th align="center">全链路压测</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">压测方式</td>
-<td align="center">Jmeter、Locust、Loadrunner</td>
-<td align="center">流量回放、压测集群</td>
-</tr>
-<tr>
-<td align="center">压测环境</td>
-<td align="center">测试环境、性能环境</td>
-<td align="center">生产环境</td>
-</tr>
-<tr>
-<td align="center">环境特点</td>
-<td align="center">配置低/不稳定</td>
-<td align="center">环境稳定/真实线上</td>
-</tr>
-<tr>
-<td align="center">压测场景</td>
-<td align="center">单机/单链路</td>
-<td align="center">核心链路及其场景</td>
-</tr>
-<tr>
-<td align="center">成本</td>
-<td align="center">需要投入人力新建、维护压测环境</td>
-<td align="center">线上生产环境，成本接近于0</td>
-</tr>
-</tbody></table>
-<p>一般的压测流程为：压测需求的提出 –&gt; 评估技术方案 –&gt; 搭建压测环境/压测数据准备 –&gt; 执行测试 –&gt; 生成报告。</p>
-<p>压测的需求可以来源于：</p>
+<h4 id="PartI-Google研发"><a href="#PartI-Google研发" class="headerlink" title="PartI Google研发"></a>PartI Google研发</h4><p>在理想情况中，测试与开发的工作是同时进行的。甚至开发人员在便在代码时就会思考如何测试他的代码：数据取值范围、导致代码循环超出限制等情况。对于人的思维方式而言，编写功能代码和编写测试代码是迥然不同的两种逻辑思维，因此我们需要有功能开发人员（Feature Developer）和测试开发人员（Test Developer）。前者的思维模式是创建，即重点关注数据流向、功能实现上；而后者重点考虑如何通过代码的方式破坏工程代码的运行。除了代码层面以外，需要有一个角色站在用户层面的角度去考虑功能实现的价值。</p>
+<p>在Google中有三种角色对应以上的描述：</p>
 <ul>
-<li>新功能的交付。此时对功能的上限无明确的认知，需要压测提供标准；</li>
-<li>测试已有功能是否达标。</li>
-<li>日常性压测，为将来的工作提供参考依据。</li>
+<li><p>SWE（SoftwareEngineer）：功能开发工程师，负责客户使用的功能模块开发以及这些功能代码的单元测试。</p>
+</li>
+<li><p>SET（SoftwareEngineer In Test）：测试开发工程师，负责在单元测试中给SWE提供支持、为SWE提供测试框架，方便他们进行中小型测试。</p>
+</li>
+<li><p>TE（TestEngineer）：测试工程师，负责从用户的角度来思考质量问题。</p>
+</li>
 </ul>
-<p>技术方案中需要根据压测的目标，给出机器数量、部署架构、执行流程、考核指标。</p>
-<p>评估过后根据技术方案搭建环境、准备数据。传统的数据构造，一般由测试人员自己维护一批压测数据。但这种方式存在很大的弊端，一方面维护成本相对较高，另一方面，其构造出的数据多样性也不足够。或通过数据工厂来构造千万、亿级数据。而全链路压测通常会dump线上数据作为压测流量，同时针对整个压测范围，依赖接口可以做人工标注。哪些需要Mock，哪些不需要Mock，如此压测特有的链路信息能够得到持续的维护。</p>
-<hr>
-<h4 id="全链路压测需要注意的点"><a href="#全链路压测需要注意的点" class="headerlink" title="全链路压测需要注意的点"></a>全链路压测需要注意的点</h4><p>首先，也是最重要的一点就是压测隔离。利用线上场景进行压测，不能污染线上真实用户的信息。这需要线上的集群能识别出压测的流量，只要能识别出压测请求的流量，那么流量触发的读写操作就很好统一去做隔离了。通常的解决方案为采用影子库的手段。影子表为和线上结构一致，但是处于隔离位置的可写压测数据表。同时为了区分压测流量与实际流量，一般会在Http header中添加特殊标识符加以分别（这里需要注意压测标识需要在全链路中透传，涉及到跨线程、服务传参的问题）。</p>
-<p>其次，线上压测又可能会影响到真实用户的体验，所以要选择业务流量小的时段进行（通常在夜间执行）。同时线上压测有可能触发流量降级策略、异常流量攻击识别策略等问题。这需要在进行压测开始前，有针对性的放松安全策略，或根据特殊标记识别。</p>
-<hr>
-<h4 id="压测结束后的工作"><a href="#压测结束后的工作" class="headerlink" title="压测结束后的工作"></a>压测结束后的工作</h4><p>压测结束后，需要将压测数据、监控数据进行整理复盘。分析当前系统存在的瓶颈、优化计划以及下一次压测计划。同时还要处理影子表的数据，为下一次压测做准备。</p>
-<p>参考文献：</p>
+<p>下面举一个例子方便大家理解这三者的工作。</p>
+<p>假设有一个登录页面，它的功能是让用户输入账号、密码和验证码，同时勾选《产品注册/登录协议》即可登录网站。</p>
+<p>这个功能至少分成两个部分：前端服务LoginFrontend和后端服务LoginService。后端服务接受前端服务的请求，检查数据是否有错误，并与数据持久层交互。</p>
+<p>SET需要使用GoogleProtocolBuffer描述性语言定义LoginService协议。如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">message LoginRequest &#123;</span><br><span class="line">    required string url = 1;</span><br><span class="line">    optional string comment = 2;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">message LoginReply &#123;</span><br><span class="line">    optional int32 error_code = 1;</span><br><span class="line">    optional string error_details = 2;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">service LoginService &#123;</span><br><span class="line">    rpc LoginUrl(loginRequest) return (LoginReply) &#123;</span><br><span class="line">        optional deadline = 10;    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该文件定义了loginRequest的消息格式、LoginReply的消息格式和login远程方法调用服务（RPC）。</p>
+<p>后续SWE就需要根据上述协议进行代码开发、单元测试；同时SET开始编写自动化运行程序。待SWE前后端调试结束后，执行自动化测试程序。等到单元测试和自动化测试都通过之后，提交代码审查。若代码审查结果需要修改，则重新执行前面的步骤，至代码审查通过。</p>
+<p>至此，一个登录模块就已经开发完毕了。可以看到TE并没有参与到研发过程中。当TE介入时，整个产品已经有了商品模块、购物车模块、订单模块。SWE和SET已经在测试技术和质量方面做了大量工作。TE们介入后通常考虑以下问题：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://tech.meituan.com/2018/09/27/quake-introduction.html">全链路压测平台（Quake）在美团中的实践</a></li>
-<li><a target="_blank" rel="noopener" href="https://tech.meituan.com/2019/02/14/full-link-pressure-test-automation.html">全链路压测自动化实践</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/ByteDanceTech/article/details/109040406">字节跳动全链路压测(Rhino)的实践</a></li>
-<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1404093">有赞全链路压测实战</a></li>
+<li><p>当前软件薄弱点在哪里？</p>
+</li>
+<li><p>有没有安全、隐私、性能、可靠性、可用性、兼容性、全球化和其他方面的问题？</p>
+</li>
+<li><p>主要用户场景是否功能正常？对于全世界不同国家的用户都是这样吗？</p>
+</li>
+<li><p>发生问题时是否容易诊断问题</p>
+</li>
 </ul>
+<p>TE需要在测试计划及测试完整性上需要更加系统和周密，重点在真实用户的使用方式和系统级别的体验上。</p>
+<p>并非所有的产品都需要TE介入。试验性工作、目标尚不明确或用户故事处于早期的产品，TE很少甚至不参与。即使是一个明确要发布的产品，在研发的早期阶段，最终功能列表和范畴还没有确定。TE通常没有太多的工作可以做。过早的投入TE意味着资源的浪费，尤其是SET已经深度介入的时候。</p>
+<h5 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h5><p>在Google研发流程中，SWE和SET承担了大部分的测试工作。TE则更关注产品整体层面和用户的体验感受。Google的研发逻辑是先生产椅子腿、椅背、扶手、椅座等零件，这些零件的质量由开发人员和测试开发共同保障。等确定需要生产一个椅子的时候，再由测试工程师介入，看椅子是否舒适、是否牢固等用户体验层的问题。</p>
+<hr>
+<h4 id="PartII-我们的产品研发"><a href="#PartII-我们的产品研发" class="headerlink" title="PartII 我们的产品研发"></a>PartII 我们的产品研发</h4><p>与Google研发逻辑相反，基本所有产品在规划之初就就配齐产品、研发、测试这些角色。即我们在研发开始时就质量保障工作。</p>
+<p>产品迭代的初期，为了产品能够迅速上线，通常缺少详细的技术评审、接口文档。架构设计、接口定义往往是口口相传。这个时期功能性需求会非常多且压缩测试的工作时间，比如两周的开发时间，给到测试可能只有3～5天。此时测试需要从产品研发流程、文档规范等角度来约束产品和研发，同时沉淀测试资产，包括且不限于测试用例、迭代/性能测试报告、迭代遗留问题等。</p>
+<p>产品的成熟期，功能趋于稳定。这个阶段开始，研发开始着手解决以前遗留的技术债务；产品功能开始优化；同时新功能也在不断的开发。回归测试可能占据了测试人员日常工作中的大部分。但是庞大复杂的产品功能导致测试的回归工作量成倍的增加。这时候需要一个角色，将重要的测试用例转换成自动化测试用例。同时，测试数据构造难的问题也显现。一个涉及新用户的场景，每个用例都需要手动注册新用户，产生了大量重复劳动时间，因此开始考虑使用脚本批量生成数据；运营设计的每一次活动，对产品性能提出了更高的要求，因而压测从以往的单模块压测转向了全链路压测。</p>
+<p>所以在这个阶段中，测试开发的重要性越来越高。测试开发需要非常熟悉业务逻辑、熟悉产品架构设计。他需要实现一些工具来解决测试在工作中的难题，如线上数据监控；他需要编写自动化测试用例来减少测试的重复劳动；他需要与研发讨论性能测试方案，解决诸如埋点监控、日志回放、数据染色等技术问题。</p>
+<hr>
+<h4 id="PartIII-总结"><a href="#PartIII-总结" class="headerlink" title="PartIII 总结"></a>PartIII 总结</h4><p>Google中的研发逻辑要求有完备的基础设施建设。例如他们共享所有代码库，所有人都可以往代码库提交代码（只要通过审查）因此有大量的工具保证质量工作；他们每周可以有20%做探索式工作，很多产品、工具往往在这20%时间里诞生；完备的代码审查机制。</p>
+<p>而在我们的研发流程中，测试人员更多忙于功能保障。当然现在逐渐的，测试开发开始在产研过程中占据一部分重要的工作。也许当功能越来越稳定之时，测试开发会在质量保障工作中占据绝大部分的工作，只需要留下部分保障功能测试人员即可。</p>
 
       
     </div>
@@ -409,7 +394,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://example.com/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/" title="全链路压测的一点认知" target="_blank" rel="external">http://example.com/2021/11/01/全链路压测的一点认知/</a>
+      <a href="http://example.com/2022/01/24/%E6%B5%8B%E8%AF%95%E3%80%81%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E4%B8%8E%E8%B4%A8%E9%87%8F%E4%BF%9D%E9%9A%9C/" title="测试、测试开发与质量保障" target="_blank" rel="external">http://example.com/2022/01/24/测试、测试开发与质量保障/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -455,13 +440,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/2021/12/27/Serivce-Mesh%E7%9A%84%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3/" title="Serivce Mesh简读"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/2021/10/23/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/" title="浅谈pytest+HttpRunner如何展开接口测试"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2021/12/27/Serivce-Mesh%E7%9A%84%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3/" title="Serivce Mesh简读"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
