@@ -26,7 +26,7 @@
 <meta property="og:description" content="摘要最近在阅读《Google软件测试之道》这本书。书的前三章详细介绍了软件开发工程师、测试开发工程师和测试工程师。阅读后想要结合我们实际工作情况谈谈我的理解。文章会先介绍Google中的研发流程，测试和测试开发的工作内容。然后根据实际工作中的各种情况，聊一聊测试和测试开发在研发中的角色定位。  PartI Google研发在理想情况中，测试与开发的工作是同时进行的。甚至开发人员在便在代码时就会思考">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-01-24T11:55:13.000Z">
-<meta property="article:modified_time" content="2022-02-10T07:55:07.925Z">
+<meta property="article:modified_time" content="2022-02-10T08:05:24.113Z">
 <meta property="article:author" content="石潇">
 <meta property="article:tag" content="Google软件测试之道">
 <meta name="twitter:card" content="summary">
@@ -363,7 +363,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">message LoginRequest &#123;</span><br><span class="line">    required string url = 1;</span><br><span class="line">    optional string comment = 2;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">message LoginReply &#123;</span><br><span class="line">    optional int32 error_code = 1;</span><br><span class="line">    optional string error_details = 2;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">service LoginService &#123;</span><br><span class="line">    rpc LoginUrl(loginRequest) return (LoginReply) &#123;</span><br><span class="line">        optional deadline = 10;    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>该文件定义了loginRequest的消息格式、LoginReply的消息格式和login远程方法调用服务（RPC）。</p>
 <p>后续SWE就需要根据上述协议进行代码开发、单元测试；同时SET开始编写自动化运行程序。待SWE前后端调试结束后，执行自动化测试程序。等到单元测试和自动化测试都通过之后，提交代码审查。若代码审查结果需要修改，则重新执行前面的步骤，至代码审查通过。</p>
-<p>至此，一个登录模块就已经开发完毕了。可以看到TE并没有参与到研发过程中。当TE介入时，整个产品已经有了商品模块、购物车模块、订单模块。SWE和SET已经在测试技术和质量方面做了大量工作。TE们介入后通常考虑以下问题：</p>
+<p>至此，一个登录模块就已经开发完毕了。<strong>可以看到TE并没有参与到研发过程中</strong>。当TE介入时，整个产品已经有了商品模块、购物车模块、订单模块。SWE和SET已经在测试技术和质量方面做了大量工作。TE们介入后通常考虑以下问题：</p>
 <ul>
 <li><p>当前软件薄弱点在哪里？</p>
 </li>
@@ -375,7 +375,7 @@
 </li>
 </ul>
 <p>TE需要在测试计划及测试完整性上需要更加系统和周密，重点在真实用户的使用方式和系统级别的体验上。</p>
-<p>并非所有的产品都需要TE介入。试验性工作、目标尚不明确或用户故事处于早期的产品，TE很少甚至不参与。即使是一个明确要发布的产品，在研发的早期阶段，最终功能列表和范畴还没有确定。TE通常没有太多的工作可以做。过早的投入TE意味着资源的浪费，尤其是SET已经深度介入的时候。</p>
+<p>并非所有的产品都需要TE介入。试验性工作、目标尚不明确或用户故事处于早期的产品，TE很少甚至不参与;即使是一个明确要发布的产品，在研发的早期阶段，最终功能列表和范畴还没有确定,TE通常也没有太多的工作可以做。过早的投入TE意味着资源的浪费，尤其是SET已经深度介入的时候。</p>
 <h5 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h5><p>在Google研发流程中，SWE和SET承担了大部分的测试工作。TE则更关注产品整体层面和用户的体验感受。Google的研发逻辑是先生产椅子腿、椅背、扶手、椅座等零件，这些零件的质量由开发人员和测试开发共同保障。等确定需要生产一个椅子的时候，再由测试工程师介入，看椅子是否舒适、是否牢固等用户体验层的问题。</p>
 <hr>
 <h4 id="PartII-我们的产品研发"><a href="#PartII-我们的产品研发" class="headerlink" title="PartII 我们的产品研发"></a>PartII 我们的产品研发</h4><p>与Google研发逻辑相反，基本所有产品在规划之初就就配齐产品、研发、测试这些角色。即我们在研发开始时就质量保障工作。</p>
