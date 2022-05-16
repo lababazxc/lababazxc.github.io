@@ -17,20 +17,20 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>全链路压测的一点认知 | Think twice, Code once</title>
-  <meta name="description" content="前言上周周末参加了两场测试沙龙，收获良多。就其中大家目前关注度比较多的话题进行一个总结和学习。其中一个是全链路压测，另一个是流量回放。这里主要总结全链路压测的内容。本文总体为概述型，若有实际操作的需求，可以参考文末链接。  什么是全链路压测一般性能测试针对于单个系统&#x2F;服务&#x2F;组件&#x2F;接口，它们都有一些共通的特点：用户热点业务场景，或者关键的业务场景。例如淘宝首页、下订单。那么我们通常对这些关键场景进行">
+  <title>记一次MySQL回滚操作 | Think twice, Code once</title>
+  <meta name="description" content="问题描述组内小伙伴在一次数据库变更中出现了一次误操作，批量修改了业务表某个必填字段导致产生了一堆脏数据，使得改业务模块不可用。而该模块被其他多个应用所依赖，所以必须进行sql回滚操作 解决方法 获取binlog日志回滚数据库方法的前提是MySQL开启了binlog日志，如果没有开启binlog就无法回滚。所以建议业务库都开启binlog。开启binlog的方法12345[mysqld]server">
 <meta property="og:type" content="article">
-<meta property="og:title" content="全链路压测的一点认知">
-<meta property="og:url" content="https://lababazxc.github.io/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/index.html">
+<meta property="og:title" content="记一次MySQL回滚操作">
+<meta property="og:url" content="https://lababazxc.github.io/2022/05/16/%E8%AE%B0%E4%B8%80%E6%AC%A1MySQL%E5%9B%9E%E6%BB%9A%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="前言上周周末参加了两场测试沙龙，收获良多。就其中大家目前关注度比较多的话题进行一个总结和学习。其中一个是全链路压测，另一个是流量回放。这里主要总结全链路压测的内容。本文总体为概述型，若有实际操作的需求，可以参考文末链接。  什么是全链路压测一般性能测试针对于单个系统&#x2F;服务&#x2F;组件&#x2F;接口，它们都有一些共通的特点：用户热点业务场景，或者关键的业务场景。例如淘宝首页、下订单。那么我们通常对这些关键场景进行">
+<meta property="og:description" content="问题描述组内小伙伴在一次数据库变更中出现了一次误操作，批量修改了业务表某个必填字段导致产生了一堆脏数据，使得改业务模块不可用。而该模块被其他多个应用所依赖，所以必须进行sql回滚操作 解决方法 获取binlog日志回滚数据库方法的前提是MySQL开启了binlog日志，如果没有开启binlog就无法回滚。所以建议业务库都开启binlog。开启binlog的方法12345[mysqld]server">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-11-01T12:06:43.000Z">
-<meta property="article:modified_time" content="2021-11-01T12:09:38.553Z">
+<meta property="article:published_time" content="2022-05-16T02:54:57.000Z">
+<meta property="article:modified_time" content="2022-05-16T07:44:12.752Z">
 <meta property="article:author" content="石潇">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://lababazxc.github.io/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/index.html">
+  <link rel="canonical" href="https://lababazxc.github.io/2022/05/16/%E8%AE%B0%E4%B8%80%E6%AC%A1MySQL%E5%9B%9E%E6%BB%9A%E6%93%8D%E4%BD%9C/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -316,14 +316,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-全链路压测的一点认知" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-记一次MySQL回滚操作" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      全链路压测的一点认知
+      记一次MySQL回滚操作
     </h1>
   
 
@@ -331,8 +331,8 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/" class="article-date">
-	  <time datetime="2021-11-01T12:06:43.000Z" itemprop="datePublished">2021-11-01</time>
+	<a href="/2022/05/16/%E8%AE%B0%E4%B8%80%E6%AC%A1MySQL%E5%9B%9E%E6%BB%9A%E6%93%8D%E4%BD%9C/" class="article-date">
+	  <time datetime="2022-05-16T02:54:57.000Z" itemprop="datePublished">2022-05-16</time>
 	</a>
 </span>
         
@@ -347,74 +347,33 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/#comments" class="article-comment-link">Comments</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/05/16/%E8%AE%B0%E4%B8%80%E6%AC%A1MySQL%E5%9B%9E%E6%BB%9A%E6%93%8D%E4%BD%9C/#comments" class="article-comment-link">Comments</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>上周周末参加了两场测试沙龙，收获良多。就其中大家目前关注度比较多的话题进行一个总结和学习。其中一个是全链路压测，另一个是流量回放。这里主要总结全链路压测的内容。本文总体为概述型，若有实际操作的需求，可以参考文末链接。</p>
-<hr>
-<h4 id="什么是全链路压测"><a href="#什么是全链路压测" class="headerlink" title="什么是全链路压测"></a>什么是全链路压测</h4><p>一般性能测试针对于单个系统/服务/组件/接口，它们都有一些共通的特点：用户热点业务场景，或者关键的业务场景。例如淘宝首页、下订单。那么我们通常对这些关键场景进行设计，只要能够通过压力测试，那就认为整个系统能够支撑业务的需要。</p>
-<p>全链路压测的出现打破了这个思维。全链路压测，顾名思义，即对整个业务链路进行压测。相较于传统性能测试，全链路压测关注度更广，着眼于整个业务域，而非仅仅某一个场景。</p>
-<p>那么为什么单系统压测的结果不准确呢？在活动开始的那一刻，流量就会瞬间达到峰值，各个服务都会面临巨大的压力。此时若链路中的某一个环节出现了故障，由于系统之间的依赖关系，故障可能沿着业务链路传递下去，使造成的影响无法评估。而单机压测则未考虑到此种情况。且全链路压测出来的情况更贴近真实生产情况，提前暴露生产风险。</p>
-<p>是一个针对业务张静越发复杂化，海量数据冲击，发现并解决整个业务系统的可用性、扩展性以及容错性的过程。</p>
-<hr>
-<h4 id="传统压测vs全链路压测"><a href="#传统压测vs全链路压测" class="headerlink" title="传统压测vs全链路压测"></a>传统压测vs全链路压测</h4><table>
-<thead>
-<tr>
-<th align="center">压测类型</th>
-<th align="center">传统压测</th>
-<th align="center">全链路压测</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">压测方式</td>
-<td align="center">Jmeter、Locust、Loadrunner</td>
-<td align="center">流量回放、压测集群</td>
-</tr>
-<tr>
-<td align="center">压测环境</td>
-<td align="center">测试环境、性能环境</td>
-<td align="center">生产环境</td>
-</tr>
-<tr>
-<td align="center">环境特点</td>
-<td align="center">配置低/不稳定</td>
-<td align="center">环境稳定/真实线上</td>
-</tr>
-<tr>
-<td align="center">压测场景</td>
-<td align="center">单机/单链路</td>
-<td align="center">核心链路及其场景</td>
-</tr>
-<tr>
-<td align="center">成本</td>
-<td align="center">需要投入人力新建、维护压测环境</td>
-<td align="center">线上生产环境，成本接近于0</td>
-</tr>
-</tbody></table>
-<p>一般的压测流程为：压测需求的提出 –&gt; 评估技术方案 –&gt; 搭建压测环境/压测数据准备 –&gt; 执行测试 –&gt; 生成报告。</p>
-<p>压测的需求可以来源于：</p>
-<ul>
-<li>新功能的交付。此时对功能的上限无明确的认知，需要压测提供标准；</li>
-<li>测试已有功能是否达标。</li>
-<li>日常性压测，为将来的工作提供参考依据。</li>
-</ul>
-<p>技术方案中需要根据压测的目标，给出机器数量、部署架构、执行流程、考核指标。</p>
-<p>评估过后根据技术方案搭建环境、准备数据。传统的数据构造，一般由测试人员自己维护一批压测数据。但这种方式存在很大的弊端，一方面维护成本相对较高，另一方面，其构造出的数据多样性也不足够。或通过数据工厂来构造千万、亿级数据。而全链路压测通常会dump线上数据作为压测流量，同时针对整个压测范围，依赖接口可以做人工标注。哪些需要Mock，哪些不需要Mock，如此压测特有的链路信息能够得到持续的维护。</p>
-<hr>
-<h4 id="全链路压测需要注意的点"><a href="#全链路压测需要注意的点" class="headerlink" title="全链路压测需要注意的点"></a>全链路压测需要注意的点</h4><p>首先，也是最重要的一点就是压测隔离。利用线上场景进行压测，不能污染线上真实用户的信息。这需要线上的集群能识别出压测的流量，只要能识别出压测请求的流量，那么流量触发的读写操作就很好统一去做隔离了。通常的解决方案为采用影子库的手段。影子表为和线上结构一致，但是处于隔离位置的可写压测数据表。同时为了区分压测流量与实际流量，一般会在Http header中添加特殊标识符加以分别（这里需要注意压测标识需要在全链路中透传，涉及到跨线程、服务传参的问题）。</p>
-<p>其次，线上压测又可能会影响到真实用户的体验，所以要选择业务流量小的时段进行（通常在夜间执行）。同时线上压测有可能触发流量降级策略、异常流量攻击识别策略等问题。这需要在进行压测开始前，有针对性的放松安全策略，或根据特殊标记识别。</p>
-<hr>
-<h4 id="压测结束后的工作"><a href="#压测结束后的工作" class="headerlink" title="压测结束后的工作"></a>压测结束后的工作</h4><p>压测结束后，需要将压测数据、监控数据进行整理复盘。分析当前系统存在的瓶颈、优化计划以及下一次压测计划。同时还要处理影子表的数据，为下一次压测做准备。</p>
-<p>参考文献：</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://tech.meituan.com/2018/09/27/quake-introduction.html">全链路压测平台（Quake）在美团中的实践</a></li>
-<li><a target="_blank" rel="noopener" href="https://tech.meituan.com/2019/02/14/full-link-pressure-test-automation.html">全链路压测自动化实践</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/ByteDanceTech/article/details/109040406">字节跳动全链路压测(Rhino)的实践</a></li>
-<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1404093">有赞全链路压测实战</a></li>
-</ul>
+        <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>组内小伙伴在一次数据库变更中出现了一次误操作，批量修改了业务表某个必填字段导致产生了一堆脏数据，使得改业务模块不可用。而该模块被其他多个应用所依赖，所以必须进行sql回滚操作</p>
+<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><ol>
+<li>获取binlog日志<br>回滚数据库方法的前提是MySQL开启了binlog日志，如果没有开启binlog就无法回滚。所以建议业务库都开启binlog。<br>开启binlog的方法<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">server_id=1</span><br><span class="line">log_bin=mysql-bin</span><br><span class="line">binlog_format=ROW</span><br><span class="line">expire_logs_days=7</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>登陆数据库后，执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">show master status;</span><br><span class="line">+------------------+-----------+--------------+------------------+-------------------+</span><br><span class="line">| File             | Position  | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |</span><br><span class="line">+------------------+-----------+--------------+------------------+-------------------+</span><br><span class="line">| mysql_bin.000081 | 356521886 |              |                  |                   |</span><br><span class="line">+------------------+-----------+--------------+------------------+-------------------+</span><br></pre></td></tr></table></figure>
+<p>得知目前binlog记录的日志文件是mysql_bin.000081。<br>根据操作发生的时间，可以执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog -vv mysql_bin.000081 --start-datetime=&quot;2022-05-13 16:32:00&quot; --stop-datetime=&quot;2022-05-13 16:32:46&quot; --base64-output=decode-rows –v -d api &gt; sql.log</span><br></pre></td></tr></table></figure>
+<p>如果不清楚业务发生时间，可以不加–start-datetime和–stop-datetime参数。-d 后的参数是指具体的database。执行命令后会得到sql.log文件</p>
+<ol start="2">
+<li><p>解析binlog日志<br>打开后会看到里面的内容基本如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">/*!*/;</span><br><span class="line"># at 76029927</span><br><span class="line">#220513 16:34:07 server id 208  end_log_pos 76030006 CRC32 0x8ab2f333 	Table_map: `center`.`order` mapped to number 126</span><br><span class="line"># at 76030006</span><br><span class="line">#220513 16:34:07 server id 208  end_log_pos 76038122 CRC32 0xfb726918 	Update_rows: table id 126</span><br><span class="line"># at 76038122</span><br><span class="line">#220513 16:34:07 server id 208  end_log_pos 76046334 CRC32 0x14478af4 	Update_rows: table id 126</span><br><span class="line"># at 76046334</span><br><span class="line">#220513 16:34:07 server id 208  end_log_pos 76046594 CRC32 0x1409de9a 	Update_rows: table id 126 flags: STMT_END_F</span><br><span class="line">### UPDATE `center`.`order`</span><br><span class="line">### WHERE</span><br><span class="line">###   @1=3459 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @2=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @3=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @4=&#x27;1644987397&#x27; /* VARSTRING(384) meta=384 nullable=0 is_null=0 */</span><br><span class="line">###   @5=3121 /* INT meta=0 nullable=1 is_null=0 */</span><br><span class="line">###   @6=2 /* TINYINT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @7=0 /* TINYINT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @8=&#x27;2022-01-20 06:46:49&#x27; /* DATETIME(0) meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @9=&#x27;2022-01-20 06:46:49&#x27; /* DATETIME(0) meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @10=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @11=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @12=0 /* TINYINT meta=0 nullable=0 is_null=0 */</span><br><span class="line">### SET</span><br><span class="line">###   @1=3459 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @2=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @3=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @4=&#x27;1644987397&#x27; /* VARSTRING(384) meta=384 nullable=0 is_null=0 */</span><br><span class="line">###   @5=3121 /* INT meta=0 nullable=1 is_null=0 */</span><br><span class="line">###   @6=2 /* TINYINT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @7=0 /* TINYINT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @8=&#x27;2022-01-20 06:46:49&#x27; /* DATETIME(0) meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @9=&#x27;2022-01-20 06:46:49&#x27; /* DATETIME(0) meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @10=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @11=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @12=1 /* TINYINT meta=0 nullable=0 is_null=0 */</span><br><span class="line"># at 76046594</span><br><span class="line">#220513 16:34:07 server id 208  end_log_pos 76046625 CRC32 0xbf2d840e 	Xid = 885802622</span><br><span class="line">COMMIT/*!*/;</span><br><span class="line"># at 76046625</span><br></pre></td></tr></table></figure>
+<p>这一段便是一个sql执行的binlog记录。BEGIN代表事务开启，at 76029927代表此段sql在binlog中的偏移量，这是我们回滚sql的重要依据。从UPDATE开始，便是误操作的sql，可以看到我们对center库中的order表进行了一次update操作。COMMIT代表了事务已被提交，sql便在数据库中执行了。COMMIT后的at 76046625代表事务结束时的偏移量。<br>至此，我们已经得到了sql执行前和执行后的position：76029927&amp;76046625。</p>
+</li>
+<li><p>获得回滚SQL<br>安装开源工具binlog2sql。binlog2sql是一款简单易用的binlog解析工具，其中一个功能就是生成回滚SQL。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/danfengcao/binlog2sql.git </span><br><span class="line">&amp;&amp; <span class="built_in">cd</span> binlog2sql</span><br></pre></td></tr></table></figure>
+<p>然后执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python binlog2sql.py -h127.0.0.1 -P3306 -uadmin -p&#x27;admin&#x27; -dcenter -torder --start-file=&#x27;mysql-bin.000081&#x27; --start-position=76029927 --stop-position=76046625 -B &gt; rollback.sql</span><br></pre></td></tr></table></figure>
+<p>在工程根目录下即得到一个rollback.sql文件<br>与业务方确认回滚sql没问题，执行回滚语句。登录mysql，确认回滚成功。</p>
+</li>
+</ol>
 
       
     </div>
@@ -424,7 +383,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://lababazxc.github.io/2021/11/01/%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B%E7%9A%84%E4%B8%80%E7%82%B9%E8%AE%A4%E7%9F%A5/" title="全链路压测的一点认知" target="_blank" rel="external">https://lababazxc.github.io/2021/11/01/全链路压测的一点认知/</a>
+      <a href="https://lababazxc.github.io/2022/05/16/%E8%AE%B0%E4%B8%80%E6%AC%A1MySQL%E5%9B%9E%E6%BB%9A%E6%93%8D%E4%BD%9C/" title="记一次MySQL回滚操作" target="_blank" rel="external">https://lababazxc.github.io/2022/05/16/记一次MySQL回滚操作/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -470,13 +429,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/2021/12/27/Serivce-Mesh%E7%9A%84%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3/" title="Serivce Mesh简读"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/2021/10/23/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/" title="浅谈pytest+HttpRunner如何展开接口测试"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2022/04/11/python%E8%B0%83%E7%94%A8shell%E5%AE%9E%E8%B7%B5/" title="python调用shell实践"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
