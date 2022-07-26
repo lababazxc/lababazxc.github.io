@@ -17,20 +17,20 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>记一次MySQL回滚操作 | Think twice, Code once</title>
-  <meta name="description" content="问题描述组内小伙伴在一次数据库变更中出现了一次误操作，批量修改了业务表某个必填字段导致产生了一堆脏数据，使得该业务模块不可用。而该模块被其他多个服务所依赖，造成了大规模服务不可用。所以必须进行sql回滚操作。 解决方法 获取binlog日志回滚数据库方法的前提是MySQL开启了binlog日志，如果没有开启binlog就无法回滚。所以建议业务库都开启binlog。开启binlog的方法12345[">
+  <title>“pytest在多线程运行测试用的一个问题” | Think twice, Code once</title>
+  <meta name="description" content="问题描述在自动化测试实践中，往往用例数量会达到数千条。如果采用单线程运行的话，执行效率就会十分低下。假设一条用例执行需要1s，共有2000条用例，则执行一次所需时间达到30分钟。更不用说在大数据业务场景中，绝大多数用例都涉及提交任务运行、计算的场景，时间会被进一步拉长。这在ci环节对用户是十分不友好的。因此引入了pytest-xdist这个插件来辅助用例执行。但是实际应用中会产生一些问题。 在做自">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记一次MySQL回滚操作">
-<meta property="og:url" content="https://lababazxc.github.io/2022/05/16/%E8%AE%B0%E4%B8%80%E6%AC%A1MySQL%E5%9B%9E%E6%BB%9A%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:title" content="“pytest在多线程运行测试用的一个问题”">
+<meta property="og:url" content="https://lababazxc.github.io/2022/07/26/%E2%80%9Cpytest%E5%9C%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98%E2%80%9D/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="问题描述组内小伙伴在一次数据库变更中出现了一次误操作，批量修改了业务表某个必填字段导致产生了一堆脏数据，使得该业务模块不可用。而该模块被其他多个服务所依赖，造成了大规模服务不可用。所以必须进行sql回滚操作。 解决方法 获取binlog日志回滚数据库方法的前提是MySQL开启了binlog日志，如果没有开启binlog就无法回滚。所以建议业务库都开启binlog。开启binlog的方法12345[">
+<meta property="og:description" content="问题描述在自动化测试实践中，往往用例数量会达到数千条。如果采用单线程运行的话，执行效率就会十分低下。假设一条用例执行需要1s，共有2000条用例，则执行一次所需时间达到30分钟。更不用说在大数据业务场景中，绝大多数用例都涉及提交任务运行、计算的场景，时间会被进一步拉长。这在ci环节对用户是十分不友好的。因此引入了pytest-xdist这个插件来辅助用例执行。但是实际应用中会产生一些问题。 在做自">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-05-16T02:54:57.000Z">
-<meta property="article:modified_time" content="2022-07-26T08:43:37.653Z">
+<meta property="article:published_time" content="2022-07-26T08:40:02.000Z">
+<meta property="article:modified_time" content="2022-07-26T09:39:58.112Z">
 <meta property="article:author" content="石潇">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://lababazxc.github.io/2022/05/16/%E8%AE%B0%E4%B8%80%E6%AC%A1MySQL%E5%9B%9E%E6%BB%9A%E6%93%8D%E4%BD%9C/index.html">
+  <link rel="canonical" href="https://lababazxc.github.io/2022/07/26/%E2%80%9Cpytest%E5%9C%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98%E2%80%9D/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -316,14 +316,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-记一次MySQL回滚操作" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-“pytest在多线程运行测试用的一个问题”" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      记一次MySQL回滚操作
+      “pytest在多线程运行测试用的一个问题”
     </h1>
   
 
@@ -331,8 +331,8 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2022/05/16/%E8%AE%B0%E4%B8%80%E6%AC%A1MySQL%E5%9B%9E%E6%BB%9A%E6%93%8D%E4%BD%9C/" class="article-date">
-	  <time datetime="2022-05-16T02:54:57.000Z" itemprop="datePublished">2022-05-16</time>
+	<a href="/2022/07/26/%E2%80%9Cpytest%E5%9C%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98%E2%80%9D/" class="article-date">
+	  <time datetime="2022-07-26T08:40:02.000Z" itemprop="datePublished">2022-07-26</time>
 	</a>
 </span>
         
@@ -347,33 +347,19 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/05/16/%E8%AE%B0%E4%B8%80%E6%AC%A1MySQL%E5%9B%9E%E6%BB%9A%E6%93%8D%E4%BD%9C/#comments" class="article-comment-link">Comments</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/07/26/%E2%80%9Cpytest%E5%9C%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98%E2%80%9D/#comments" class="article-comment-link">Comments</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>组内小伙伴在一次数据库变更中出现了一次误操作，批量修改了业务表某个必填字段导致产生了一堆脏数据，使得该业务模块不可用。而该模块被其他多个服务所依赖，造成了大规模服务不可用。所以必须进行sql回滚操作。</p>
-<h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><ol>
-<li>获取binlog日志<br>回滚数据库方法的前提是MySQL开启了binlog日志，如果没有开启binlog就无法回滚。所以建议业务库都开启binlog。<br>开启binlog的方法<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">server_id=1</span><br><span class="line">log_bin=mysql-bin</span><br><span class="line">binlog_format=ROW</span><br><span class="line">expire_logs_days=7</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>登陆数据库后，执行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">show master status;</span><br><span class="line">+------------------+-----------+--------------+------------------+-------------------+</span><br><span class="line">| File             | Position  | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |</span><br><span class="line">+------------------+-----------+--------------+------------------+-------------------+</span><br><span class="line">| mysql_bin.000081 | 356521886 |              |                  |                   |</span><br><span class="line">+------------------+-----------+--------------+------------------+-------------------+</span><br></pre></td></tr></table></figure>
-<p>得知目前binlog记录的日志文件是mysql_bin.000081。<br>根据操作发生的时间，可以执行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog -vv mysql_bin.000081 --start-datetime=&quot;2022-05-13 16:32:00&quot; --stop-datetime=&quot;2022-05-13 16:32:46&quot; --base64-output=decode-rows –v -d api &gt; sql.log</span><br></pre></td></tr></table></figure>
-<p>如果不清楚业务发生时间，可以不加–start-datetime和–stop-datetime参数。-d 后的参数是指具体的database。执行命令后会得到sql.log文件</p>
-<ol start="2">
-<li><p>解析binlog日志<br>打开后会看到里面的内容基本如下。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">/*!*/;</span><br><span class="line"># at 76029927</span><br><span class="line">#220513 16:34:07 server id 208  end_log_pos 76030006 CRC32 0x8ab2f333 	Table_map: `center`.`order` mapped to number 126</span><br><span class="line"># at 76030006</span><br><span class="line">#220513 16:34:07 server id 208  end_log_pos 76038122 CRC32 0xfb726918 	Update_rows: table id 126</span><br><span class="line"># at 76038122</span><br><span class="line">#220513 16:34:07 server id 208  end_log_pos 76046334 CRC32 0x14478af4 	Update_rows: table id 126</span><br><span class="line"># at 76046334</span><br><span class="line">#220513 16:34:07 server id 208  end_log_pos 76046594 CRC32 0x1409de9a 	Update_rows: table id 126 flags: STMT_END_F</span><br><span class="line">### UPDATE `center`.`order`</span><br><span class="line">### WHERE</span><br><span class="line">###   @1=3459 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @2=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @3=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @4=&#x27;1644987397&#x27; /* VARSTRING(384) meta=384 nullable=0 is_null=0 */</span><br><span class="line">###   @5=3121 /* INT meta=0 nullable=1 is_null=0 */</span><br><span class="line">###   @6=2 /* TINYINT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @7=0 /* TINYINT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @8=&#x27;2022-01-20 06:46:49&#x27; /* DATETIME(0) meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @9=&#x27;2022-01-20 06:46:49&#x27; /* DATETIME(0) meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @10=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @11=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @12=0 /* TINYINT meta=0 nullable=0 is_null=0 */</span><br><span class="line">### SET</span><br><span class="line">###   @1=3459 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @2=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @3=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @4=&#x27;1644987397&#x27; /* VARSTRING(384) meta=384 nullable=0 is_null=0 */</span><br><span class="line">###   @5=3121 /* INT meta=0 nullable=1 is_null=0 */</span><br><span class="line">###   @6=2 /* TINYINT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @7=0 /* TINYINT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @8=&#x27;2022-01-20 06:46:49&#x27; /* DATETIME(0) meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @9=&#x27;2022-01-20 06:46:49&#x27; /* DATETIME(0) meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @10=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @11=1 /* INT meta=0 nullable=0 is_null=0 */</span><br><span class="line">###   @12=1 /* TINYINT meta=0 nullable=0 is_null=0 */</span><br><span class="line"># at 76046594</span><br><span class="line">#220513 16:34:07 server id 208  end_log_pos 76046625 CRC32 0xbf2d840e 	Xid = 885802622</span><br><span class="line">COMMIT/*!*/;</span><br><span class="line"># at 76046625</span><br></pre></td></tr></table></figure>
-<p>这一段便是一个sql执行的binlog记录。BEGIN代表事务开启，at 76029927代表此段sql在binlog中的偏移量，这是我们回滚sql的重要依据。从UPDATE开始，便是误操作的sql，可以看到我们对center库中的order表进行了一次update操作。COMMIT代表了事务已被提交，sql便在数据库中执行了。COMMIT后的at 76046625代表事务结束时的偏移量。<br>至此，我们已经得到了sql执行前和执行后的position：76029927&amp;76046625。</p>
-</li>
-<li><p>获得回滚SQL<br>安装开源工具binlog2sql。binlog2sql是一款简单易用的binlog解析工具，其中一个功能就是生成回滚SQL。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/danfengcao/binlog2sql.git </span><br><span class="line">&amp;&amp; <span class="built_in">cd</span> binlog2sql</span><br></pre></td></tr></table></figure>
-<p>然后执行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python binlog2sql.py -h127.0.0.1 -P3306 -uadmin -p&#x27;admin&#x27; -dcenter -torder --start-file=&#x27;mysql-bin.000081&#x27; --start-position=76029927 --stop-position=76046625 -B &gt; rollback.sql</span><br></pre></td></tr></table></figure>
-<p>在工程根目录下即得到一个rollback.sql文件<br>与业务方确认回滚sql没问题，执行回滚语句。登录mysql，确认回滚成功。</p>
-</li>
-</ol>
+        <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>在自动化测试实践中，往往用例数量会达到数千条。如果采用单线程运行的话，执行效率就会十分低下。假设一条用例执行需要1s，共有2000条用例，则执行一次所需时间达到30分钟。更不用说在大数据业务场景中，绝大多数用例都涉及提交任务运行、计算的场景，时间会被进一步拉长。这在ci环节对用户是十分不友好的。因此引入了<strong>pytest-xdist</strong>这个插件来辅助用例执行。但是实际应用中会产生一些问题。</p>
+<p>在做自动化测试的时候，通常我们会将登陆接口–login，放到fixture中并且将scope设置为session，让登陆操作全局只运行一次。但是当我们使用了pytest-xdist的时候，用例执行时程序会启动多个线程执，此时login并非只执行了一次，而是与线程数一致。即n个线程就会执行n遍login。这有违使用fixture的初衷</p>
+<hr>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>pytest-xdist官方给出了一段示例来解决上述问题, 下面以登陆为例对这段代码进行说明</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import json</span><br><span class="line"></span><br><span class="line">import pytest</span><br><span class="line">from filelock import FileLock</span><br><span class="line"></span><br><span class="line">@pytest.fixture(scope=&quot;session&quot;)</span><br><span class="line">def session_data(tmp_path_factory, worker_id):</span><br><span class="line">    if worker_id == &quot;master&quot;:</span><br><span class="line">        # not executing in with multiple workers, just produce the data and let</span><br><span class="line">        # pytest&#x27;s fixture caching do its job</span><br><span class="line">        return login()</span><br><span class="line"></span><br><span class="line">    # get the temp directory shared by all workers</span><br><span class="line">    root_tmp_dir = tmp_path_factory.getbasetemp().parent</span><br><span class="line"></span><br><span class="line">    fn = root_tmp_dir / &quot;data.json&quot;</span><br><span class="line">    with FileLock(str(fn) + &quot;.lock&quot;):</span><br><span class="line">        if fn.is_file():</span><br><span class="line">            token = json.loads(fn.read_text())</span><br><span class="line">        else:</span><br><span class="line">            token = login()</span><br><span class="line">            fn.write_text(json.dumps(token))</span><br><span class="line">    return data</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>第一段if判断的是是否为多进程运行。多线程运行状态下，xdist会创建一个master和多个worker。master负责分配用例给worker执行。分配策略这里不过多赘述。如果<code>worker_id</code>为master，说明此时为单机运行，直接返回登陆后的token。</p>
+<p>剩下的代码段都是在多线程下的执行逻辑。<code>fn</code>为一个json文件，文件内容为登陆后获得的token。<br>在线程获取到锁后：如果文件不存在，即为第一次登陆。执行登陆逻辑，并将token写入文件。如果文件存在，则直接从文件中读取token。<br>如此通过文件锁的方式，保证了登陆逻辑只执行一次。</p>
 
       
     </div>
@@ -383,7 +369,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://lababazxc.github.io/2022/05/16/%E8%AE%B0%E4%B8%80%E6%AC%A1MySQL%E5%9B%9E%E6%BB%9A%E6%93%8D%E4%BD%9C/" title="记一次MySQL回滚操作" target="_blank" rel="external">https://lababazxc.github.io/2022/05/16/记一次MySQL回滚操作/</a>
+      <a href="https://lababazxc.github.io/2022/07/26/%E2%80%9Cpytest%E5%9C%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98%E2%80%9D/" title="“pytest在多线程运行测试用的一个问题”" target="_blank" rel="external">https://lababazxc.github.io/2022/07/26/“pytest在多线程运行测试用的一个问题”/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -429,13 +415,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/2022/07/26/%E2%80%9Cpytest%E5%9C%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98%E2%80%9D/" title="“pytest在多线程运行测试用的一个问题”"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/2022/04/11/python%E8%B0%83%E7%94%A8shell%E5%AE%9E%E8%B7%B5/" title="python调用shell实践"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2022/05/16/%E8%AE%B0%E4%B8%80%E6%AC%A1MySQL%E5%9B%9E%E6%BB%9A%E6%93%8D%E4%BD%9C/" title="记一次MySQL回滚操作"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
