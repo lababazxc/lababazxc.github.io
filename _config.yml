@@ -106,5 +106,5 @@ theme: pure
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/lababazxc/lababazxc.github.io 
+  repo: https://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@github.com/lababazxc/lababazxc.github.io 
   branch: master
